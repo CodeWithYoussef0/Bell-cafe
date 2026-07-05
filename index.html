@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="موقع مقهى بيل العصري - مشروبات وحلويات شهية.">
+    <link rel="stylesheet" href="style.css">
+    <title>بيل كافيه | مشروبات وحلويات</title>
+</head>
+<body>
+<header class="head">
+    <div class="brand">
+        <h1 class="logo">بيل كافيه</h1>
+        <p class="tagline">مشروبات وحلويات دافئة في جو مريح</p>
+    </div>
+    <div class="header-actions">
+        <nav class="navbar">
+            <ul>
+                <li><a href="#hero">الرئيسية</a></li>
+                <li><a href="#menu">القائمة</a></li>
+                <li><a href="#contact">تواصل</a></li>
+            </ul>
+        </nav>
+        <button type="button" class="cart-btn" id="openCartButton">🛒 السلة (<span id="cartCount">0</span>)</button>
+    </div>
+</header>
+
+<div class="cart-panel" id="cartPanel" aria-hidden="true">
+    <div class="cart-panel-inner">
+        <div class="cart-panel-header">
+            <div>
+                <span class="eyebrow">سلة الطلب</span>
+                <h2>طلبك الآن</h2>
+            </div>
+            <button type="button" class="close-cart" id="closeCartButton" aria-label="إغلاق السلة">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">السلة فارغة. اضغط على "أضف إلى السلة" لبدء الطلب.</p>
+        </div>
+        <div class="cart-summary" id="cartSummary">
+            <div class="summary-row">
+                <span>المجموع</span>
+                <strong id="cartTotal">٠ ج.م</strong>
+            </div>
+            <button type="button" class="btn btn-primary" id="checkoutButton">إتمام الطلب</button>
+        </div>
+
+        <div class="checkout-screen" id="checkoutScreen" aria-hidden="true">
+            <div class="checkout-header">
+                <span class="eyebrow">الدفع</span>
+                <h3>أكمل بيانات الطلب</h3>
+            </div>
+            <p class="checkout-note">اختر وسيلة الدفع وسجل بياناتك لتأكيد الطلب بسرعة.</p>
+            <div class="order-summary" id="orderSummary">
+                <h4>ملخص الطلب</h4>
+                <ul id="orderSummaryList"></ul>
+                <p><strong>المجموع:</strong> <span id="orderSummaryTotal">٠ ج.م</span></p>
+            </div>
+            <form id="paymentForm" class="payment-form">
+                <label for="customerName">الاسم</label>
+                <input type="text" id="customerName" name="customerName" placeholder="اسمك الكامل" required>
+
+                <label for="customerPhone">رقم الهاتف</label>
+                <input type="tel" id="customerPhone" name="customerPhone" placeholder="٠١٢٣٤٥٦٧٨٩٠" required>
+
+                <label for="customerAddress">العنوان</label>
+                <textarea id="customerAddress" name="customerAddress" rows="3" placeholder="شارع القهوة، المدينة" required></textarea>
+
+                <fieldset class="payment-methods">
+                    <legend>طريقة الدفع</legend>
+                    <label><input type="radio" name="paymentMethod" value="cash" checked> نقداً عند الاستلام</label>
+                    <label><input type="radio" name="paymentMethod" value="card"> بطاقة ائتمان</label>
+                </fieldset>
+
+                <label for="orderNote">ملاحظات الطلب</label>
+                <textarea id="orderNote" name="orderNote" rows="2" placeholder="مثال: بدون سكر أو بدون مكسرات"></textarea>
+
+                <div class="checkout-actions">
+                    <button type="submit" class="btn btn-primary">تأكيد الدفع</button>
+                    <button type="button" class="btn btn-secondary" id="backToCartButton">الرجوع للسلة</button>
+                </div>
+            </form>
+            <p id="paymentResponse" class="form-response"></p>
+        </div>
+        <div class="checkout-success" id="checkoutSuccess" aria-hidden="true">
+            <div class="checkout-header">
+                <span class="eyebrow">تم الطلب</span>
+                <h3>طلبك في الطريق</h3>
+            </div>
+            <p class="checkout-note">شكراً لاختيارك بيل كافيه! تم تأكيد الطلب وسنعمل على تجهيزه فوراً.</p>
+            <div class="success-summary" id="successSummary"></div>
+            <button type="button" class="btn btn-primary" id="closeSuccessButton">العودة للتسوق</button>
+        </div>
+    </div>
+</div>
+
+<main>
+    <section class="hero" id="hero">
+        <div class="hero-grid container">
+            <div class="hero-content">
+                <span class="eyebrow">تجربة فريدة</span>
+                <h1>مشروبات وحلويات تلطف يومك</h1>
+                <p>اختياراتنا مبنية على أفضل المكونات ونكهات مصممة لتمنحك راحة وجمال في كل لحظة.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="#menu">اطّلع على القائمة</a>
+                    <a class="btn btn-secondary" href="#contact">تواصل معنا</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=900&q=70" alt="مقهى بيل" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <section class="best-seller">
+        <div class="container best-grid">
+            <div class="best-image">
+                <img src="https://images.unsplash.com/photo-1510626176961-4b7f52ada62b?auto=format&fit=crop&w=900&q=70" alt="أفضل منتج" loading="lazy">
+            </div>
+            <div class="best-content">
+                <span class="eyebrow">الأكثر مبيعاً</span>
+                <h2>كابتشينو الكراميل</h2>
+                <p>مزج مثالي بين القهوة المقطرة، الكراميل الغني، وخامة الحليب المخفوق ليمنحك طعماً دافئاً لا يُنسى.</p>
+                <ul class="support-list">
+                    <li>أكثر المشروبات طلباً خلال الأسبوع</li>
+                    <li>تقديم مميز مع رغوة كثيفة</li>
+                    <li>مثالي للجلسات الباردة والدافئة</li>
+                </ul>
+                <a class="btn btn-primary" href="#menu">اطلب الآن</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <div class="container gallery-grid">
+            <article class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=70" alt="ديكور المقهى" loading="lazy">
+                <span>جلسة هادئة داخل الكافيه</span>
+            </article>
+            <article class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=70" alt="مشروب القهوة" loading="lazy">
+                <span>مشروبات معدة بعناية</span>
+            </article>
+            <article class="gallery-card">
+                <img src="https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=800&q=70" alt="حلويات مميزة" loading="lazy">
+                <span>حلويات طازجة وطعم غني</span>
+            </article>
+        </div>
+    </section>
+
+    <section class="menu" id="menu">
+        <div class="container">
+            <div class="section-header">
+                <h2>القائمة</h2>
+                <p>أكثر من 12 صنفاً من المشروبات الساخنة والباردة والحلويات، مع تفاصيل تظهر عند الضغط لكل منتج.</p>
+            </div>
+            <div class="menu-controls">
+                <div class="filter-tabs" role="tablist" aria-label="تصفية القائمة">
+                    <button type="button" class="filter-btn active" data-filter="all">الكل</button>
+                    <button type="button" class="filter-btn" data-filter="hot">ساخنة</button>
+                    <button type="button" class="filter-btn" data-filter="cold">باردة</button>
+                    <button type="button" class="filter-btn" data-filter="dessert">حلويات</button>
+                </div>
+                <div class="search-box">
+                    <input type="search" id="menuSearch" placeholder="ابحث عن مشروب أو تحلية..." aria-label="البحث في القائمة">
+                </div>
+            </div>
+            <div class="menu-categories">
+                <article class="category-card">
+                    <div class="category-header">
+                        <h3>المشروبات الساخنة</h3>
+                        <span class="category-arrow">›</span>
+                    </div>
+                    <ul class="menu-list">
+                        <li class="menu-item-row" data-category="hot" data-price="90">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=300&q=70" alt="كابتشينو الكراميل" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>كابتشينو الكراميل</strong>
+                                    <p>إسبريسو، كراميل، وحليب مخفوق مع قرفة خفيفة.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٩٠ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>مشروب دافئ برغوة كثيفة مع طابع كراميل مخملي، يقدم بمذاق مريح في كل رشفة.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="hot" data-price="75">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=300&q=70" alt="لاتيه الفانيلا" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>لاتيه الفانيلا</strong>
+                                    <p>قهوة ناعمة مع نكهة فانيلا ناعمة وحليب حريري.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٧٥ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>مثالي لمحبي الطعم الناعم، يقدم مع رغوة حريرية ولمسة فانيلا عربية.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="hot" data-price="85">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1510626176961-4b7f52ada62b?auto=format&fit=crop&w=300&q=70" alt="موكا الشوكولاتة" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>موكا الشوكولاتة</strong>
+                                    <p>مزيج إسبريسو، شوكولاتة داكنة، وحليب كريم.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٨٥ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>قهوة غنية لعشاق الشوكولاتة، تُقدم دافئة مع رشة كاكاو على الوجه.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="hot" data-price="65">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=300&q=70" alt="شاي تركي بالهيل" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>شاي تركي بنكهة الهيل</strong>
+                                    <p>شاي أسود مركز ممزوج بهيل طازج، لطيف ودافئ.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٦٥ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>خيار تقليدي مع لمسة عصرية، يقدم ساخناً ويفتح حاسة التذوق بلطف.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+                <article class="category-card">
+                    <div class="category-header">
+                        <h3>المشروبات الباردة</h3>
+                        <span class="category-arrow">›</span>
+                    </div>
+                    <ul class="menu-list">
+                        <li class="menu-item-row" data-category="cold" data-price="95">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1493874005938-9d511d45de6d?auto=format&fit=crop&w=300&q=70" alt="آيس موكا" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>آيس موكا</strong>
+                                    <p>قهوة مثلجة مع شوكولاتة وكريمة محلاة.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٩٥ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>انتعاش بارد مع توازن رائع بين القهوة المرّة والشوكولاتة الحلوة.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="cold" data-price="62">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1505253217279-56f3e50f8d15?auto=format&fit=crop&w=300&q=70" alt="شاي مثلج بالليمون" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>شاي مثلج بالليمون</strong>
+                                    <p>منعش وخفيف مع لمسة نعناع وحس حامضي لطيف.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٦٢ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>يفتح الشهية ويجدد النشاط، مناسب لكل لحظة صيفية أو جلسة ودية.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="cold" data-price="88">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1498800103072-0e0c5f1c0b5c?auto=format&fit=crop&w=300&q=70" alt="سبانيش لاتيه مثلج" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>سبانيش لاتيه مثلج</strong>
+                                    <p>حليب مكثف وقهوة مثلجة بطعم غني وكريمي.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٨٨ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>قوام ثقيل ونكهة حلوة، مثالي للمحبين للمذاق المميز والمنعش.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="cold" data-price="92">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1518552788577-73c55b29c4a6?auto=format&fit=crop&w=300&q=70" alt="آيس فانيلا بروليه" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>أيس فانيلا بروليه</strong>
+                                    <p>قهوة مثلجة مع نكهة فانيلا ومسحة كراميل محروقة.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٩٢ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>طعم لطيف ومكرمل مع لمسة باردة مميزة، مشروب مثالي للاستمتاع.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+                <article class="category-card">
+                    <div class="category-header">
+                        <h3>الحلويات</h3>
+                        <span class="category-arrow">›</span>
+                    </div>
+                    <ul class="menu-list">
+                        <li class="menu-item-row" data-category="dessert" data-price="110">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1533777324565-a040eb52fac2?auto=format&fit=crop&w=300&q=70" alt="تشيز كيك الفستق" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>تشيز كيك الفستق</strong>
+                                    <p>تشيز كيك ناعم مع قشرة فستق مقرمشة.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">١١٠ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>قوام كريمي مع تعزيز الفستق اللذيذ وطعم خفيف يمنحك نهاية متوازنة.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="dessert" data-price="78">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6e11?auto=format&fit=crop&w=300&q=70" alt="براوني الشوكولاتة" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>براوني الشوكولاتة</strong>
+                                    <p>براوني دافئ مع صوص الشوكولاتة.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٧٨ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>حلوى عميقة الغنى تُقدم ساخنة مع قوام طري ومركز من الشوكولاتة.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="dessert" data-price="82">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1505253217279-56f3e50f8d15?auto=format&fit=crop&w=300&q=70" alt="كريب النوتيلا" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>كريب النوتيلا</strong>
+                                    <p>كريب رقيق محشو بالنوتيلا والمكسرات.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٨٢ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>تحلية كلاسيكية مع مزيج من النوتيلا والمكسرات المقرمشة وقوام خفيف.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                        <li class="menu-item-row" data-category="dessert" data-price="95">
+                            <div class="menu-item-main">
+                                <div class="item-thumbnail">
+                                    <img src="https://images.unsplash.com/photo-1543508283-9bdd5e96d3b8?auto=format&fit=crop&w=300&q=70" alt="تارت التوت البري" loading="lazy">
+                                </div>
+                                <div class="item-text">
+                                    <strong>تارت التوت البري</strong>
+                                    <p>تارت مقرمش مع قشدة وفاكهة موسمية حامضية.</p>
+                                </div>
+                                <div class="item-actions">
+                                    <span class="price">٩٥ ج.م</span>
+                                    <button type="button" class="detail-toggle" aria-expanded="false">التفاصيل</button>
+                                </div>
+                            </div>
+                            <div class="item-details">
+                                <p>هوامش مقرمشة وقلب كريمي، مع توازن مثالي بين الحلو والحامض.</p>
+                                <button type="button" class="btn add-to-cart">أضف إلى السلة</button>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>تواصل معنا</h2>
+                <p>أرسل استفساراً أو احجز طلبك بسهولة.</p>
+            </div>
+            <div class="contact-layout">
+                <div class="contact-info">
+                    <h3>موقعنا</h3>
+                    <p>شارع القهوة ١٢٣، وسط المدينة</p>
+                    <p>الهاتف: +٩٦٦ ٥٥٥ ١٢٣ ٤٥٦</p>
+                    <p>البريد: hello@bill-cafe.com</p>
+                </div>
+                <form id="contact-form" class="contact-form">
+                    <label for="name">الاسم</label>
+                    <input type="text" id="name" name="name" placeholder="اسمك" required>
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" name="email" placeholder="بريدك الإلكتروني" required>
+                    <label for="message">الرسالة</label>
+                    <textarea id="message" name="message" rows="5" placeholder="كيف يمكننا مساعدتك؟" required></textarea>
+                    <button type="submit" class="btn btn-primary">إرسال</button>
+                    <p id="form-response" class="form-response"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="location">
+        <div class="container location-inner">
+            <div>
+                <h2>الموقع</h2>
+                <p>في قلب المدينة مع سهولة الوصول بسيارة أو مشياً.</p>
+                <p>مفتوح يومياً من ٨ صباحاً حتى ١٠ مساءً.</p>
+            </div>
+            <div class="map-placeholder">
+                <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=900&q=80" alt="واجهة المقهى" loading="lazy">
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container footer-inner">
+        <p>© 2026 بيل كافيه. جميع الحقوق محفوظة.</p>
+        <div class="footer-links">
+            <a href="#hero">الرئيسية</a>
+            <a href="#menu">القائمة</a>
+            <a href="#contact">تواصل</a>
+        </div>
+    </div>
+</footer>
+
+<script defer src="index.js"></script>
+</body>
+</html>
